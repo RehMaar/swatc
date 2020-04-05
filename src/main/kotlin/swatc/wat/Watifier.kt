@@ -62,8 +62,12 @@ object Watifier {
     }
 
     private fun whileToWat(condition: Expression, body: SwatcTree, builder: StringBuilder) {
+        // We can assign static labels ($break and $continue) without fear for nested loops!
+        // `block` for conditional exit.
         builder.appendln("(block \$break")
+        // `loop` for looping.
         builder.appendln("(loop \$continue")
+        // Checking condition. Need to use (0 ==) because of `while` semantic.
         builder.append("(br_if \$break (i32.eq (i32.const 0) ")
         expressionToWat(condition, builder)
         builder.appendln("))")
@@ -81,7 +85,18 @@ object Watifier {
     private fun treeToWat(tree: SwatcTree, builder: StringBuilder) =
         tree.statements.map { stmt -> statementToWat(stmt, builder) }
 
+    /**
+     * The simplest (to understand!) way of translation is just to create a function
+     * without parameters and a return value and to add instructions to its body.
+     *
+     * Our simple language doesn't have any complex statements (like functions, for instance),
+     * so program representation in <wat> is just a list of corresponding simple instructions.
+     *
+     * In this form it's difficult to figure out how to automatically test it properly, so
+     * the only way to do it is by hand.
+     */
     fun toWat(tree: SwatcTree): String {
+        // Need to collect all assignments beforehand to allocate local variables.
         val programAssigns = assigns(tree)
         val builder = StringBuilder("(module (func (export \"main\") (param) (result)\n")
 
@@ -93,5 +108,4 @@ object Watifier {
         builder.appendln("))")
         return builder.toString()
     }
-
 }
