@@ -3,7 +3,7 @@ Swatt -- Simple WAT Translator
 
 A language description:
 * Literals and variables;
-* Variables definitio and assigment: `let x = 42`;
+* Variables definition and assignment: `let x = 42`;
 * Variables reassignment: `x = 0`;
 * Arithmetic operations: `+`, `-`, `*`, `/`;
 * Comparison operators: `>=`, `>`, `<=`, `<`, `==`, `!=`;
