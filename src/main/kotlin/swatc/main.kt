@@ -5,13 +5,12 @@ import swatc.wat.Watifier
 
 
 fun main() {
-    val p2 =
-        "let i = 10" +
-                "let j = 10" +
-                "let x = 0" +
-                "while (i > 0) {" +
-                "  i = i - 1" +
-                "}"
+    val p2 = "let i = 3" +
+            "let j = 10" +
+            "let x = 0" +
+            "while (i >! 0) {" +
+            "  i = i - 2" +
+            "}"
 
-    println(Watifier.toWat(SwatcParser.parse(p2)))
+    SwatcParser.parse(p2)?.let { println(Watifier.toWat(it)) } ?: println("Unable to parse a program.")
 }
