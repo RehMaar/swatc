@@ -1,9 +1,9 @@
-package swatc.parser
+package swatt.parser
 
-import swatc.ast.*
-import swatc.parser.SWatCParser.*
+import swatt.ast.*
+import swatt.parser.SlangParser.*
 
-class SwatcParseTreeVisitor : SWatCBaseVisitor<AstNode>() {
+class SlangParseTreeVisitor : SlangBaseVisitor<AstNode>() {
     override fun visitProgram(ctx: ProgramContext): AstNode {
         return visit(ctx.block())
     }
@@ -12,19 +12,19 @@ class SwatcParseTreeVisitor : SWatCBaseVisitor<AstNode>() {
         val stmts = ctx.statements.map {
             visit(it) as Statement
         }
-        return SwatcTree(stmts)
+        return SlangTree(stmts)
     }
 
     override fun visitWhileStmt(ctx: WhileStmtContext): AstNode {
         val condition = visit(ctx.cond) as Expression
-        val body = visit(ctx.body) as SwatcTree
+        val body = visit(ctx.body) as SlangTree
         return While(condition, body)
     }
 
     override fun visitIfStmt(ctx: IfStmtContext): AstNode {
         val condition = visit(ctx.cond) as Expression
-        val thenC = visit(ctx.thenC) as SwatcTree
-        val elseC = ctx.elseC?.let { visit(it) as SwatcTree }
+        val thenC = visit(ctx.thenC) as SlangTree
+        val elseC = ctx.elseC?.let { visit(it) as SlangTree }
         return If(condition, thenC, elseC)
     }
 

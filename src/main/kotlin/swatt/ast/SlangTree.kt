@@ -1,4 +1,4 @@
-package swatc.ast
+package swatt.ast
 
 /**
  * Marking nodes of our AST.
@@ -8,7 +8,7 @@ sealed class AstNode
 /**
  * A program in our language is just a list of statements.
  */
-data class SwatcTree(val statements: List<Statement>) : AstNode()
+data class SlangTree(val statements: List<Statement>) : AstNode()
 
 /**
  * Marking statements of out language.
@@ -18,12 +18,12 @@ sealed class Statement : AstNode()
 /**
  * `While` statement.
  */
-data class While(val condition: Expression, val body: SwatcTree) : Statement()
+data class While(val condition: Expression, val body: SlangTree) : Statement()
 
 /**
  * `If` statements with optional `else` branch.
  */
-data class If(val condition: Expression, val thenC: SwatcTree, val elseC: SwatcTree?) : Statement()
+data class If(val condition: Expression, val thenC: SlangTree, val elseC: SlangTree?) : Statement()
 
 /**
  * Assign a value to a *fresh* variable.

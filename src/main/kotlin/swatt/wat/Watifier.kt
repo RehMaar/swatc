@@ -1,9 +1,9 @@
-package swatc.wat
+package swatt.wat
 
-import swatc.ast.*
+import swatt.ast.*
 
 object Watifier {
-    private fun assigns(tree: SwatcTree): List<String> = tree.statements.mapNotNull {
+    private fun assigns(tree: SlangTree): List<String> = tree.statements.mapNotNull {
         when (it) {
             is Assign -> it.identifier.value
             else -> null
@@ -47,7 +47,7 @@ object Watifier {
         builder.appendln(")")
     }
 
-    private fun ifToWat(condition: Expression, thenC: SwatcTree, elseC: SwatcTree?, builder: StringBuilder) {
+    private fun ifToWat(condition: Expression, thenC: SlangTree, elseC: SlangTree?, builder: StringBuilder) {
         builder.append("(if ")
         expressionToWat(condition, builder)
         builder.appendln("\n(block")
@@ -61,7 +61,7 @@ object Watifier {
         builder.appendln(")")
     }
 
-    private fun whileToWat(condition: Expression, body: SwatcTree, builder: StringBuilder) {
+    private fun whileToWat(condition: Expression, body: SlangTree, builder: StringBuilder) {
         // We can assign static labels ($break and $continue) without fear for nested loops!
         // `block` for conditional exit.
         builder.appendln("(block \$break")
@@ -82,7 +82,7 @@ object Watifier {
         is While -> whileToWat(statement.condition, statement.body, builder)
     }
 
-    private fun treeToWat(tree: SwatcTree, builder: StringBuilder) =
+    private fun treeToWat(tree: SlangTree, builder: StringBuilder) =
         tree.statements.map { stmt -> statementToWat(stmt, builder) }
 
     /**
@@ -95,7 +95,7 @@ object Watifier {
      * In this form it's difficult to figure out how to automatically test it properly, so
      * the only way to do it is by hand.
      */
-    fun toWat(tree: SwatcTree): String {
+    fun toWat(tree: SlangTree): String {
         // Need to collect all assignments beforehand to allocate local variables.
         val programAssigns = assigns(tree)
         val builder = StringBuilder("(module (func (export \"main\") (param) (result)\n")

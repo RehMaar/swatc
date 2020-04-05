@@ -3,7 +3,7 @@ plugins {
     id 'antlr'
 }
 
-group 'swatc'
+group 'swatt'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -12,8 +12,8 @@ repositories {
 
 generateGrammarSource {
     maxHeapSize = "64m"
-    arguments += ['-package', 'swatc.parser', '-visitor']
-    outputDirectory = new File("$buildDir/generated-src/antlr/main/swatc/parser")
+    arguments += ['-package', 'swatt.parser', '-visitor']
+    outputDirectory = new File("$buildDir/generated-src/antlr/main/swatt/parser")
 }
 
 compileJava.dependsOn generateGrammarSource

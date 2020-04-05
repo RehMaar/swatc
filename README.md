@@ -1,5 +1,5 @@
-Swatc -- Simple WAT Compiler
------------------------------
+Swatt -- Simple WAT Translator
+------------------------------
 
 A language description:
 * Literals and variables;

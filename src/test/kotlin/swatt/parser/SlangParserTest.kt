@@ -1,10 +1,10 @@
-package swatc.parser
+package swatt.parser
 
 import org.junit.Assert.*
 import org.junit.Test
-import swatc.ast.*
+import swatt.ast.*
 
-class SwatcParserTest {
+class SlangParserTest {
     @Test
     fun testIf() {
        val p = "let x = 10" +
@@ -15,15 +15,15 @@ class SwatcParserTest {
                "  y = 6" +
                "}"
 
-        val expected = SwatcTree(listOf(
+        val expected = SlangTree(listOf(
              Assign(Identifier("x"), Literal(10)),
              Assign(Identifier("y"), Literal(5)),
              If(Binary(Identifier("x"), Literal(10), BinaryOperation.GT),
-                 SwatcTree(listOf(Reassign(Identifier("y"), Literal(10)))),
-                 SwatcTree(listOf(Reassign(Identifier("y"), Literal(6))))
+                 SlangTree(listOf(Reassign(Identifier("y"), Literal(10)))),
+                 SlangTree(listOf(Reassign(Identifier("y"), Literal(6))))
              )))
 
-        val result = SwatcParser.parse(p)
+        val result = SlangParse.parse(p)
         assertEquals(expected, result)
     }
 
@@ -34,20 +34,20 @@ class SwatcParserTest {
                 "  x = x - 1" +
                 "}"
 
-        val expected = SwatcTree(listOf(
+        val expected = SlangTree(listOf(
             Assign(Identifier("x"), Literal(10)),
             While(Binary(Identifier("x"), Literal(0), BinaryOperation.LT),
-                SwatcTree(listOf(Reassign(Identifier("x"), Binary(Identifier("x"), Literal(1), BinaryOperation.MINUS))))
+                SlangTree(listOf(Reassign(Identifier("x"), Binary(Identifier("x"), Literal(1), BinaryOperation.MINUS))))
             )))
 
-        val result = SwatcParser.parse(p)
+        val result = SlangParse.parse(p)
         assertEquals(expected, result)
     }
 
     @Test
     fun testError() {
         val p = "let x = 'true'"
-        val result = SwatcParser.parse(p)
-        print(result)
+        val result = SlangParse.parse(p)
+        assertTrue(result == null)
     }
 }

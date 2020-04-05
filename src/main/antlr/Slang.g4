@@ -1,4 +1,4 @@
-grammar SWatC;
+grammar Slang;
 
 program
     : block EOF
